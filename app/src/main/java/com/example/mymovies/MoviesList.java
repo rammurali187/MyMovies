@@ -53,7 +53,7 @@ public class MoviesList extends AppCompatActivity {
             setSupportActionBar(toolbar);
 
             if (savedInstanceState != null) {
-                movies = savedInstanceState.getParcelableArrayList("state_movies");
+                movies = savedInstanceState.getParcelableArrayList("state_movielist");
                 selectedposition = savedInstanceState.getInt("state_selected_position", -1);
                 movie_type = savedInstanceState.getString("state_selected_type");
                 title = savedInstanceState.getString("state_selected_title");
