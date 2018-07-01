@@ -27,7 +27,8 @@ import retrofit.client.Response;
 
 public class MoviesList extends AppCompatActivity {
 
-    protected int mSelectedPosition = -1;
+    private int visibleThreshold = 5;
+    protected int selectedposition = -1;
     RecyclerView recyclerView;
     List<Movie> movies;
     MoviesAdapter adapter;
@@ -35,6 +36,13 @@ public class MoviesList extends AppCompatActivity {
     private String title;
     Context context;
     Toolbar toolbar;
+    private int currentPage = 0;
+    private int previousTotalItemCount = 0;
+    private boolean loading = true;
+    private int startingPageIndex = 0;
+    GridLayoutManager gridlayoutmanager;
+    protected static final String MOST_POPULAR = "popularity.desc";
+    protected static final String HIGHEST_RATED = "vote_average.desc";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,14 +54,14 @@ public class MoviesList extends AppCompatActivity {
 
             if (savedInstanceState != null) {
                 movies = savedInstanceState.getParcelableArrayList("state_movies");
-                mSelectedPosition = savedInstanceState.getInt("state_selected_position", -1);
+                selectedposition = savedInstanceState.getInt("state_selected_position", -1);
                 movie_type = savedInstanceState.getString("state_selected_type");
                 title = savedInstanceState.getString("state_selected_title");
             } else {
                 movies = new ArrayList<Movie>();
-                mSelectedPosition = -1;
+                selectedposition = -1;
+                movie_type = MOST_POPULAR;
                 getMovies(movie_type, 1);
-                movie_type = "popularity.desc";
                 title = "Most Popular";
             }
 
@@ -64,30 +72,47 @@ public class MoviesList extends AppCompatActivity {
             Log.d("Movises List",movies.toString());
             adapter = new MoviesAdapter(this, movies);
             recyclerView.setAdapter(adapter);
-            adapter.setLoadMoreListener(new MoviesAdapter.OnLoadMoreListener() {
+            recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+
                 @Override
-                public void onLoadMore() {
+                public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                    super.onScrolled(recyclerView, dx, dy);
 
-                    recyclerView.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            mSelectedPosition = movies.size() - 1;
-                            int index = movies.size() - 1;
-                            getMoreMovies(movie_type, mSelectedPosition);
-                        }
-                    });
+                    int visibleItemCount = recyclerView.getChildCount();
+                    int totalItemCount = gridlayoutmanager.getItemCount();
+                    int firstVisibleItem = gridlayoutmanager.findFirstVisibleItemPosition();
 
+                    if (totalItemCount < previousTotalItemCount) {
+                        currentPage = startingPageIndex;
+                        previousTotalItemCount = totalItemCount;
+                        if (totalItemCount == 0) { loading = true; }
+                    }
+
+                    if (loading && (totalItemCount > previousTotalItemCount)) {
+                        loading = false;
+                        previousTotalItemCount = totalItemCount;
+                        currentPage++;
+                    }
+
+
+                    if (!loading && (totalItemCount - visibleItemCount) <= (firstVisibleItem + visibleThreshold)) {
+                        getMoreMovies(movie_type,currentPage + 1);
+                        //onLoadMore(currentPage + 1, totalItemCount);
+                        loading = true;
+                    }
                 }
             });
+
             recyclerView.setHasFixedSize(true);
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
             recyclerView.addItemDecoration(new VerticalLineDecorator(2));
             recyclerView.setAdapter(adapter);
             final int columns = getResources().getInteger(R.integer.movies_columns);
             Log.d("Noof list Columns",String.valueOf(columns));
-            recyclerView.setLayoutManager(new GridLayoutManager(MoviesList.this, columns));
-            Log.d("Selected Position",String.valueOf(mSelectedPosition));
-            if (mSelectedPosition != -1) recyclerView.scrollToPosition(mSelectedPosition);
+            gridlayoutmanager = new GridLayoutManager(MoviesList.this, columns);
+            recyclerView.setLayoutManager(gridlayoutmanager);
+            Log.d("Selected Position",String.valueOf(selectedposition));
+            if (selectedposition != -1) recyclerView.scrollToPosition(selectedposition);
 
         }catch(Exception ex)
         {
@@ -99,8 +124,8 @@ public class MoviesList extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putParcelableArrayList("state_movies", new ArrayList<Movie>(movies));
-        outState.putInt("state_selected_position", mSelectedPosition);
+        outState.putParcelableArrayList("state_movielist", new ArrayList<Movie>(movies));
+        outState.putInt("state_selected_position", selectedposition);
         outState.putString("state_selected_type", movie_type);
         outState.putString("state_selected_title", title);
     }
@@ -109,6 +134,7 @@ public class MoviesList extends AppCompatActivity {
     protected void onRestoreInstanceState(Bundle state) {
         super.onRestoreInstanceState(state);
     }
+
 
     private void getMovies(String sort,int page) {
         try {
@@ -178,14 +204,14 @@ public class MoviesList extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_mostpopular) {
-            movie_type = "popularity.desc";
+            movie_type = MOST_POPULAR;
             getMovies(movie_type,1);
             title  = "Most Popular";
             toolbar.setTitle(title);
             return true;
         }else if(id == R.id.action_highestrated)
         {
-            movie_type = "vote_average.desc";
+            movie_type = HIGHEST_RATED;
             getMovies(movie_type,1);
             title  =  "Highest Rated";
             toolbar.setTitle(title);

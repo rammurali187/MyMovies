@@ -59,6 +59,7 @@ public class MovieDetails extends AppCompatActivity {
     private Video mTrailer;
     VolleyRequestQueue requestqueue;
     private ImageLoader mImageLoader;
+    MyApplication singltonclass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +72,7 @@ public class MovieDetails extends AppCompatActivity {
                 throw new IllegalArgumentException("Detail activity must receive a movie parcelable");
             }
 
-
+            singltonclass = MyApplication.getInstance();
             LinearLayout mSliderDots = (LinearLayout) findViewById(R.id.SliderDots);
             ViewPager pager_container = (ViewPager) findViewById(R.id.pager_container);
             viewpager = new ViewPagers(MovieDetails.this, pager_container, mSliderDots);
@@ -146,7 +147,7 @@ public class MovieDetails extends AppCompatActivity {
 
     private void getvideos(int movieid) {
       try {
-          MoviesApiService service = MyApplication.getInstance().getResadapter().create(MoviesApiService.class);
+          MoviesApiService service = singltonclass.getResadapter().create(MoviesApiService.class);
           service.getVideos(movieid, new Callback<Video.VideoResult>() {
               @Override
               public void success(Video.VideoResult movieResult, Response response) {
@@ -166,7 +167,7 @@ public class MovieDetails extends AppCompatActivity {
 
     private void getReviews(int movieid) {
         try{
-        MoviesApiService service = MyApplication.getInstance().getResadapter().create(MoviesApiService.class);
+        MoviesApiService service = singltonclass.getResadapter().create(MoviesApiService.class);
         service.getReviews(movieid,new Callback<Review.ReviewResult>() {
             @Override
             public void success(Review.ReviewResult reviewResult, Response response) {
