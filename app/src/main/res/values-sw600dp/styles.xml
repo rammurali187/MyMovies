@@ -2,7 +2,6 @@
 
 <resources>
 
-    <!-- Movie details -->
     <style name="MovieDetailPlayImage">
         <item name="android:layout_gravity">center</item>
     </style>

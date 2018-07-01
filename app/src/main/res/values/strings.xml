@@ -1,6 +1,4 @@
 <resources>
     <string name="app_name">My Movie</string>
-    <string name="action_settings">Settings</string>
-    <string name="title_activity_movie_detail">MovieDetail</string>
     <string name="large_text">Lorem Ipsum is simply dummy text of the printing and typesetting industry. </string>
 </resources>

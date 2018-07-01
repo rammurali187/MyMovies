@@ -15,11 +15,11 @@ import java.util.List;
 import java.util.Locale;
 
 
-public final class UiUtils {
+public final class UiUtility {
 
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
 
-    private UiUtils() {
+    private UiUtility() {
         throw new AssertionError("No instances.");
     }
 
@@ -30,7 +30,7 @@ public final class UiUtils {
             calendar.setTime(DATE_FORMAT.parse(releaseDate));
             return calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.ENGLISH) + " " + calendar.get(Calendar.YEAR);
         } catch (ParseException e) {
-            Log.e("Failed to parse.",e.getMessage().toString());
+            Log.e("Failed to parse date.",e.getMessage().toString());
             return "";
         }
     }

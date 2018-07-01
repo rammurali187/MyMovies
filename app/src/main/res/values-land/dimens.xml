@@ -2,7 +2,6 @@
 
 <resources>
 
-    <!-- Movie Details -->
     <dimen name="movie_details_poster_width">140dp</dimen>
     <dimen name="movie_details_poster_top_margin">0dp</dimen>
     <dimen name="movie_details_poster_left_margin">0dp</dimen>

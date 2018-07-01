@@ -35,7 +35,7 @@
                 android:layout_marginTop="@dimen/movie_details_poster_top_margin"
                 android:contentDescription="@null"
                 app:imageAspectRatio="@dimen/movie_item_image_aspect_ratio"
-                tools:src="@drawable/placeholder_movie_item_image" />
+                tools:src="@drawable/placeholder_movie_image" />
 
 
 

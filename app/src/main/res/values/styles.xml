@@ -1,8 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/material_cyan700</item>
         <item name="colorPrimaryDark">@color/material_cyan800</item>
         <item name="colorAccent">@color/material_cyan300</item>
@@ -23,7 +21,6 @@
         <item name="android:layout_margin">@dimen/item_spacing_half</item>
         <item name="android:clickable">true</item>
         <item name="android:foreground">?android:attr/selectableItemBackground</item>
-        <!--<item name="cardPreventCornerOverlap">false</item>-->
         <item name="cardElevation">4dp</item>
     </style>
     <style name="MovieItemText">
@@ -65,16 +62,11 @@
         <item name="android:textSize">@dimen/text_size_large</item>
     </style>
 
-    <style name="ActionBar.Subtitle" parent="TextAppearance.AppCompat.Widget.ActionBar.Subtitle">
-        <item name="android:textColor">@color/body_text_white</item>
-        <item name="android:textSize">@dimen/text_size_medium</item>
-    </style>
 
     <style name="MovieDetailSectionHeader">
         <item name="android:textSize">@dimen/text_size_xlarge</item>
         <item name="android:textColor">@color/theme_primary</item>
         <item name="android:paddingBottom">8dp</item>
-        <!--<item name="android:background">@drawable/movie_detail_section_separator</item>-->
     </style>
 
     <style name="MovieDetailTextBody">

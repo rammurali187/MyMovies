@@ -27,7 +27,7 @@ import com.example.mymovies.utility.ExpandableTextView;
 import com.example.mymovies.utility.Lists;
 import com.example.mymovies.utility.MoviesApiService;
 import com.example.mymovies.utility.MyApplication;
-import com.example.mymovies.utility.UiUtils;
+import com.example.mymovies.utility.UiUtility;
 import com.example.mymovies.utility.ViewPagers;
 import com.example.mymovies.utility.VolleyRequestQueue;
 import com.squareup.picasso.Picasso;
@@ -76,10 +76,10 @@ public class MovieDetails extends AppCompatActivity {
             LinearLayout mSliderDots = (LinearLayout) findViewById(R.id.SliderDots);
             ViewPager pager_container = (ViewPager) findViewById(R.id.pager_container);
             viewpager = new ViewPagers(MovieDetails.this, pager_container, mSliderDots);
-            viewpager.viewpagerinit(new String[]{UiUtils.getDisplayReleaseDate(mMovie.getReleaseDate()), String.valueOf(mMovie.getVoteCount()), mMovie.getLanguage()}, new String[]{mMovie.getAdult()});
+            viewpager.viewpagerinit(new String[]{UiUtility.getDisplayReleaseDate(mMovie.getReleaseDate()), String.valueOf(mMovie.getVoteCount()), mMovie.getLanguage()}, new String[]{mMovie.getAdult()});
             String strgenre = "";
             List<Integer> genreid = mMovie.getGenreIds();
-            List<Genre> genrelist = UiUtils.genrelist();
+            List<Genre> genrelist = UiUtility.genrelist();
 
             for (Genre item : genrelist) {
                 if (genreid.contains(item.getId())) {
