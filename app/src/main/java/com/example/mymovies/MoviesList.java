@@ -57,10 +57,12 @@ public class MoviesList extends AppCompatActivity {
                 selectedposition = savedInstanceState.getInt("state_selected_position", -1);
                 movie_type = savedInstanceState.getString("state_selected_type");
                 title = savedInstanceState.getString("state_selected_title");
+                currentPage = savedInstanceState.getInt("state_selected_page");
             } else {
                 movies = new ArrayList<Movie>();
                 selectedposition = -1;
                 movie_type = MOST_POPULAR;
+                currentPage = 0;
                 getMovies(movie_type, 1);
                 title = "Most Popular";
             }
@@ -97,7 +99,6 @@ public class MoviesList extends AppCompatActivity {
 
                     if (!loading && (totalItemCount - visibleItemCount) <= (firstVisibleItem + visibleThreshold)) {
                         getMoreMovies(movie_type,currentPage + 1);
-                        //onLoadMore(currentPage + 1, totalItemCount);
                         loading = true;
                     }
                 }
@@ -128,6 +129,7 @@ public class MoviesList extends AppCompatActivity {
         outState.putInt("state_selected_position", selectedposition);
         outState.putString("state_selected_type", movie_type);
         outState.putString("state_selected_title", title);
+        outState.putInt("state_selected_page", currentPage);
     }
 
     @Override
@@ -207,6 +209,7 @@ public class MoviesList extends AppCompatActivity {
             movie_type = MOST_POPULAR;
             getMovies(movie_type,1);
             title  = "Most Popular";
+            currentPage = 0;
             toolbar.setTitle(title);
             return true;
         }else if(id == R.id.action_highestrated)
@@ -214,6 +217,7 @@ public class MoviesList extends AppCompatActivity {
             movie_type = HIGHEST_RATED;
             getMovies(movie_type,1);
             title  =  "Highest Rated";
+            currentPage = 0;
             toolbar.setTitle(title);
             return true;
         }
