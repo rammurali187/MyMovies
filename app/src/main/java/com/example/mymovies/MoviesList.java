@@ -53,7 +53,7 @@ public class MoviesList extends AppCompatActivity {
             setSupportActionBar(toolbar);
 
             if (savedInstanceState != null) {
-                movies = savedInstanceState.getParcelableArrayList("state_movielist");
+                movies = savedInstanceState.getParcelableArrayList("state_movielists");
                 selectedposition = savedInstanceState.getInt("state_selected_position", -1);
                 movie_type = savedInstanceState.getString("state_selected_type");
                 title = savedInstanceState.getString("state_selected_title");
@@ -124,7 +124,7 @@ public class MoviesList extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putParcelableArrayList("state_movielist", new ArrayList<Movie>(movies));
+        outState.putParcelableArrayList("state_movielists", new ArrayList<Movie>(movies));
         outState.putInt("state_selected_position", selectedposition);
         outState.putString("state_selected_type", movie_type);
         outState.putString("state_selected_title", title);
